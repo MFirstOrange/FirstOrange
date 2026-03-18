@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FirstOrange Guide — Distinguished Restaurants & Hotels</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black: #faf9f5;
+      --deep: #f2f0ea;
+      --card: #ffffff;
+      --border: #e3e0d8;
+      --orange: #d97757;
+      --orange-light: #e8957a;
+      --orange-dim: #c46340;
+      --onion: #9a7050;
+      --onion-light: #7a5030;
+      --white: #1a1815;
+      --gray: #6b6860;
+      --gray-light: #4a4740;
+    }
+
+    /* ── LIGHT MODE OVERRIDES ── */
+    nav {
+      background: rgba(250,249,245,0.95) !important;
+    }
+    .filter-bar {
+      background: #f2f0ea !important;
+    }
+    .restaurant-card,
+    .hotel-card,
+    .magazine-card {
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    }
+    .restaurant-card:hover,
+    .hotel-card:hover {
+      box-shadow: 0 4px 16px rgba(217,119,87,0.12);
+    }
+    .legend-box {
+      background: #f2f0ea !important;
+    }
+    select {
+      background: #f2f0ea !important;
+      color: #1a1815 !important;
+    }
+    footer {
+      background: #eeece6 !important;
+    }
+    .newsletter-section {
+      background: #f2f0ea !important;
+    }
+    .distinctions-strip {
+      background: #f2f0ea !important;
+    }
+    .featured-section {
+      background: #eeece6 !important;
+    }
+    .destinations-section {
+      background: #f2f0ea !important;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 9999; opacity: 0.4;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(250,249,245,0.95); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 72px;
+    }
+    .nav-logo { display: flex; flex-direction: column; line-height: 1; }
+    .nav-logo .logo-main {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px; font-weight: 600; letter-spacing: 0.12em;
+      color: var(--white); text-transform: uppercase;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .nav-logo .logo-sub { font-size: 9px; letter-spacing: 0.3em; color: var(--orange); text-transform: uppercase; margin-top: 3px; }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a { color: var(--gray-light); text-decoration: none; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; transition: color 0.25s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--orange); }
+    .nav-right { display: flex; align-items: center; gap: 20px; }
+    .btn-primary {
+      background: var(--orange); color: var(--black); border: none; padding: 10px 22px;
+      font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 600;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      cursor: pointer; transition: background 0.25s, transform 0.2s;
+    }
+    .btn-primary:hover { background: var(--orange-light); transform: translateY(-1px); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh; display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      text-align: center; padding: 120px 48px 80px;
+      position: relative; overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 40% at 50% 30%, rgba(217,119,87,0.10) 0%, transparent 70%),
+        radial-gradient(ellipse 80% 60% at 20% 80%, rgba(217,119,87,0.05) 0%, transparent 60%),
+        linear-gradient(180deg, #faf9f5 0%, #f5f2eb 100%);
+    }
+    .hero-ornament {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 700px; height: 700px;
+      border: 1px solid rgba(217,119,87,0.10);
+      border-radius: 50%; pointer-events: none;
+    }
+    .hero-ornament::before {
+      content: ''; position: absolute; inset: 40px;
+      border: 1px solid rgba(217,119,87,0.06); border-radius: 50%;
+    }
+    .hero-content { position: relative; z-index: 2; max-width: 900px; }
+    .hero-eyebrow {
+      font-size: 10px; letter-spacing: 0.4em; color: var(--orange);
+      text-transform: uppercase; margin-bottom: 28px;
+      display: flex; align-items: center; justify-content: center; gap: 16px;
+    }
+    .hero-eyebrow::before, .hero-eyebrow::after { content: ''; display: block; width: 40px; height: 1px; background: var(--orange-dim); }
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(52px, 8vw, 92px);
+      font-weight: 300; line-height: 1.0; letter-spacing: 0.02em;
+      color: var(--white); margin-bottom: 8px;
+    }
+    .hero h1 em { font-style: italic; color: var(--orange); }
+    .hero-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px; font-style: italic;
+      color: var(--gray); margin: 20px 0 40px; letter-spacing: 0.05em;
+    }
+
+    /* Rating scale preview */
+    .hero-scale {
+      display: flex; align-items: center; justify-content: center;
+      gap: 0; margin-bottom: 44px; flex-wrap: wrap;
+    }
+    .scale-item {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 7px; padding: 18px 22px;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      min-width: 100px;
+      transition: border-color 0.25s, background 0.25s;
+      cursor: default;
+    }
+    .scale-item:hover { border-color: var(--orange-dim); background: #fef3ec; }
+    .scale-item.onion-item:hover { border-color: var(--onion); background: #f5f0e8; }
+    .scale-item + .scale-item { margin-left: -1px; }
+    .scale-icons { font-size: 18px; letter-spacing: 2px; min-height: 24px; }
+    .scale-label { font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase; }
+    .scale-label.good { color: var(--orange); }
+    .scale-label.bad  { color: var(--onion-light); }
+    .scale-divider {
+      padding: 0 12px; font-size: 20px; color: var(--border);
+      align-self: center; z-index: 1;
+    }
+
+    .hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn-outline {
+      background: transparent; color: var(--white); border: 1px solid var(--border);
+      padding: 14px 32px; font-family: 'Montserrat', sans-serif;
+      font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase;
+      cursor: pointer; transition: border-color 0.25s, color 0.25s; text-decoration: none;
+    }
+    .btn-outline:hover { border-color: var(--orange); color: var(--orange); }
+
+    .hero-stats {
+      position: absolute; bottom: 48px; left: 0; right: 0;
+      display: flex; justify-content: center; gap: 64px; z-index: 2;
+    }
+    .stat { text-align: center; }
+    .stat-number { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 400; color: var(--orange); display: block; }
+    .stat-label { font-size: 9px; letter-spacing: 0.25em; color: var(--gray); text-transform: uppercase; margin-top: 4px; }
+
+    /* ── SECTION BASE ── */
+    section { padding: 100px 48px; }
+    .section-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 56px; }
+    .section-eyebrow { font-size: 9px; letter-spacing: 0.35em; color: var(--orange); text-transform: uppercase; margin-bottom: 10px; }
+    .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(36px, 4vw, 52px); font-weight: 300; line-height: 1.1; letter-spacing: 0.02em; }
+    .section-title em { font-style: italic; color: var(--orange); }
+    .view-all { font-size: 10px; letter-spacing: 0.2em; color: var(--orange); text-transform: uppercase; text-decoration: none; border-bottom: 1px solid var(--orange-dim); padding-bottom: 3px; transition: color 0.2s, border-color 0.2s; white-space: nowrap; }
+    .view-all:hover { color: var(--orange-light); border-color: var(--orange-light); }
+
+    /* ── DISTINCTIONS STRIP ── */
+    .distinctions-strip { padding: 48px; background: var(--deep); border-bottom: 1px solid var(--border); }
+    .distinctions-grid { display: flex; gap: 2px; justify-content: stretch; }
+    .distinction-item {
+      flex: 1; background: var(--card); border: 1px solid var(--border);
+      padding: 28px 24px; cursor: pointer;
+      transition: border-color 0.25s, background 0.25s; text-align: center;
+    }
+    .distinction-item:hover { border-color: var(--orange-dim); background: rgba(212,97,26,0.05); }
+    .distinction-item.onion-item:hover { border-color: var(--onion); background: rgba(122,92,46,0.06); }
+    .distinction-icons { font-size: 22px; letter-spacing: 3px; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; min-height: 30px; }
+    .distinction-name { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--white); margin-bottom: 4px; }
+    .distinction-desc { font-size: 10px; color: var(--gray); letter-spacing: 0.05em; }
+    .distinction-count { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--orange); margin-top: 12px; }
+    .distinction-count.bad { color: var(--onion-light); }
+
+    /* ── FILTER BAR ── */
+    .filter-bar {
+      background: var(--deep); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      padding: 0 48px; display: flex; align-items: center; overflow-x: auto;
+      position: sticky; top: 72px; z-index: 900;
+    }
+    .filter-label { font-size: 9px; letter-spacing: 0.25em; color: var(--gray); text-transform: uppercase; padding: 20px 24px 20px 0; border-right: 1px solid var(--border); white-space: nowrap; margin-right: 24px; }
+    .filter-tabs { display: flex; }
+    .filter-tab { background: none; border: none; color: var(--gray); font-family: 'Montserrat', sans-serif; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; padding: 22px 18px; cursor: pointer; border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s; white-space: nowrap; }
+    .filter-tab:hover { color: var(--white); }
+    .filter-tab.active { color: var(--orange); border-bottom-color: var(--orange); }
+    .filter-divider { width: 1px; background: var(--border); height: 24px; align-self: center; margin: 0 6px; }
+
+    /* ── LISTING LAYOUT ── */
+    .listing-section { background: var(--black); }
+    .listing-layout { display: grid; grid-template-columns: 280px 1fr; gap: 48px; align-items: start; }
+    .sidebar { position: sticky; top: 140px; }
+    .sidebar-section { margin-bottom: 32px; }
+    .sidebar-title { font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--orange); margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+
+    /* Legend */
+    .legend-box { background: var(--card); border: 1px solid var(--border); padding: 18px 20px; margin-bottom: 28px; }
+    .legend-title { font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--orange); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+    .legend-row { display: flex; align-items: center; gap: 10px; padding: 5px 0; font-size: 10px; color: var(--gray-light); border-bottom: 1px solid rgba(46,36,32,0.4); }
+    .legend-row:last-child { border-bottom: none; }
+    .legend-row.bad { color: var(--onion-light); }
+    .legend-icons { min-width: 58px; font-size: 13px; }
+
+    .sidebar-options { list-style: none; }
+    .sidebar-options li { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(46,36,32,0.5); cursor: pointer; transition: color 0.2s; }
+    .sidebar-options li:hover { color: var(--orange); }
+    .sidebar-options li label { display: flex; align-items: center; gap: 10px; font-size: 11px; letter-spacing: 0.05em; cursor: pointer; }
+    .sidebar-options li .count { font-size: 10px; color: var(--gray); }
+    .custom-check { width: 14px; height: 14px; border: 1px solid var(--border); background: transparent; display: inline-block; flex-shrink: 0; }
+    .price-row { display: flex; gap: 8px; }
+    .price-badge { background: var(--card); border: 1px solid var(--border); color: var(--gray); padding: 6px 12px; font-size: 11px; cursor: pointer; transition: all 0.2s; }
+    .price-badge:hover, .price-badge.active { border-color: var(--orange); color: var(--orange); }
+
+    /* ── CARDS ── */
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2px; }
+    .restaurant-card { background: var(--card); border: 1px solid var(--border); overflow: hidden; cursor: pointer; transition: border-color 0.3s, transform 0.3s; position: relative; }
+    .restaurant-card:hover { border-color: var(--orange-dim); transform: translateY(-3px); }
+    .restaurant-card.onion-card:hover { border-color: var(--onion); }
+    .card-img-wrap { position: relative; height: 200px; overflow: hidden; background: #1a1210; }
+    .img-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+    .card-badge {
+      position: absolute; top: 12px; left: 12px;
+      background: rgba(10,9,9,0.9); border: 1px solid var(--orange-dim);
+      padding: 5px 10px; display: flex; align-items: center; gap: 5px;
+    }
+    .card-badge .badge-icons { font-size: 13px; }
+    .card-badge .badge-label { font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--orange); }
+    .card-badge.onion-badge { border-color: var(--onion); }
+    .card-badge.onion-badge .badge-label { color: var(--onion-light); }
+    .card-fav { position: absolute; top: 12px; right: 12px; background: rgba(10,9,9,0.7); border: 1px solid var(--border); width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.2s; }
+    .card-fav:hover { background: rgba(212,97,26,0.2); }
+    .card-fav svg { width: 14px; height: 14px; stroke: var(--gray-light); fill: none; }
+    .card-body { padding: 20px; }
+    .card-cuisine { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--orange); margin-bottom: 8px; }
+    .card-cuisine.bad { color: var(--onion-light); }
+    .card-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 400; line-height: 1.2; margin-bottom: 6px; }
+    .card-location { font-size: 10px; color: var(--gray); letter-spacing: 0.08em; margin-bottom: 14px; }
+    .card-meta { display: flex; align-items: center; justify-content: space-between; padding-top: 14px; border-top: 1px solid var(--border); }
+    .card-price { font-size: 12px; color: var(--gray-light); letter-spacing: 0.1em; }
+    .card-rating { font-size: 16px; letter-spacing: 2px; }
+
+    /* ── FEATURED ── */
+    .featured-section { background: var(--deep); border-top: 1px solid var(--border); }
+    .featured-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+    .featured-card { position: relative; height: 500px; overflow: hidden; cursor: pointer; }
+    .featured-card:first-child { grid-row: span 2; height: 100%; }
+    .featured-card:hover .featured-card-bg { transform: scale(1.03); }
+    .featured-card-bg { width: 100%; height: 100%; transition: transform 0.6s ease; }
+    .featured-card-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 36px; background: linear-gradient(0deg, rgba(0,0,0,0.92) 0%, transparent 100%); }
+    .featured-tag { font-size: 9px; letter-spacing: 0.3em; color: var(--orange); text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+    .featured-name { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 400; line-height: 1.15; margin-bottom: 8px; }
+    .featured-info { font-size: 11px; color: var(--gray-light); letter-spacing: 0.08em; }
+
+    /* ── HOTELS ── */
+    .hotels-section { background: var(--black); }
+    .hotels-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 2px; }
+    .hotel-card { background: var(--card); border: 1px solid var(--border); overflow: hidden; cursor: pointer; transition: border-color 0.3s, transform 0.3s; }
+    .hotel-card:hover { border-color: var(--orange-dim); transform: translateY(-3px); }
+    .hotel-img-wrap { position: relative; height: 240px; overflow: hidden; background: #1a1210; }
+    .hotel-tier { position: absolute; top: 0; left: 0; right: 0; display: flex; gap: 2px; }
+    .hotel-tier-bar { height: 3px; flex: 1; background: var(--orange); }
+    .hotel-tier-bar.dim { background: var(--border); }
+    .hotel-body { padding: 24px; }
+    .hotel-category { font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--orange); margin-bottom: 8px; }
+    .hotel-name { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 400; margin-bottom: 6px; }
+    .hotel-location { font-size: 10px; color: var(--gray); letter-spacing: 0.08em; margin-bottom: 16px; }
+    .hotel-amenities { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+    .amenity-tag { background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--gray-light); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 8px; }
+    .hotel-meta { display: flex; align-items: center; justify-content: space-between; padding-top: 16px; border-top: 1px solid var(--border); }
+    .hotel-price { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--white); }
+    .hotel-price span { font-family: 'Montserrat', sans-serif; font-size: 10px; color: var(--gray); }
+    .btn-reserve { background: transparent; border: 1px solid var(--orange-dim); color: var(--orange); font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; padding: 8px 16px; cursor: pointer; transition: background 0.2s, color 0.2s; }
+    .btn-reserve:hover { background: var(--orange); color: var(--black); }
+
+    /* ── DESTINATIONS ── */
+    .destinations-section { background: var(--deep); border-top: 1px solid var(--border); }
+    .destinations-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; }
+    .destination-card { position: relative; height: 280px; overflow: hidden; cursor: pointer; }
+    .destination-card:hover .dest-bg { transform: scale(1.06); filter: brightness(0.6) saturate(0.9); }
+    .dest-bg { width: 100%; height: 100%; transition: transform 0.5s, filter 0.4s; filter: brightness(0.45) saturate(0.7); }
+    .destination-label { position: absolute; bottom: 20px; left: 20px; right: 20px; }
+    .destination-city { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; margin-bottom: 4px; }
+    .destination-count { font-size: 9px; letter-spacing: 0.2em; color: var(--orange); text-transform: uppercase; }
+
+    /* ── MAGAZINE ── */
+    .magazine-section { background: var(--black); }
+    .magazine-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+    .magazine-card { background: var(--card); border: 1px solid var(--border); overflow: hidden; cursor: pointer; transition: border-color 0.3s; }
+    .magazine-card:hover { border-color: var(--orange-dim); }
+    .magazine-img { height: 220px; overflow: hidden; background: #1a1210; display: flex; align-items: center; justify-content: center; }
+    .magazine-body { padding: 24px; }
+    .magazine-tag { font-size: 9px; letter-spacing: 0.25em; color: var(--orange); text-transform: uppercase; margin-bottom: 12px; }
+    .magazine-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; line-height: 1.3; margin-bottom: 10px; }
+    .magazine-excerpt { font-size: 11px; color: var(--gray); line-height: 1.7; }
+
+    /* ── NEWSLETTER ── */
+    .newsletter-section { background: var(--deep); border-top: 1px solid var(--border); text-align: center; padding: 80px 48px; }
+    .newsletter-inner { max-width: 560px; margin: 0 auto; }
+    .newsletter-section h2 { font-family: 'Cormorant Garamond', serif; font-size: 42px; font-weight: 300; margin-bottom: 16px; }
+    .newsletter-section p { font-size: 13px; color: var(--gray); line-height: 1.7; margin-bottom: 36px; }
+    .newsletter-form { display: flex; max-width: 440px; margin: 0 auto; }
+    .newsletter-form input { flex: 1; background: var(--card); border: 1px solid var(--border); border-right: none; color: var(--white); font-family: 'Montserrat', sans-serif; font-size: 12px; padding: 14px 20px; outline: none; transition: border-color 0.2s; }
+    .newsletter-form input:focus { border-color: var(--orange-dim); }
+    .newsletter-form input::placeholder { color: var(--gray); }
+    .newsletter-form button { background: var(--orange); border: 1px solid var(--orange); color: var(--black); font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; padding: 14px 24px; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
+    .newsletter-form button:hover { background: var(--orange-light); }
+
+    /* ── FOOTER ── */
+    footer { background: #eeece6; border-top: 1px solid var(--border); padding: 64px 48px 40px; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+    .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--white); margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+    .footer-tagline { font-size: 9px; letter-spacing: 0.3em; color: var(--orange); text-transform: uppercase; margin-bottom: 20px; }
+    .footer-desc { font-size: 11px; color: var(--gray); line-height: 1.8; max-width: 280px; }
+    .footer-col-title { font-size: 9px; letter-spacing: 0.3em; color: var(--orange); text-transform: uppercase; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 10px; }
+    .footer-links a { color: var(--gray); text-decoration: none; font-size: 11px; letter-spacing: 0.05em; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--orange); }
+    .footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; display: flex; align-items: center; justify-content: space-between; }
+    .footer-copy { font-size: 10px; color: var(--gray); letter-spacing: 0.08em; }
+    .footer-social { display: flex; gap: 16px; }
+    .social-btn { width: 32px; height: 32px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: border-color 0.2s; color: var(--gray); font-size: 11px; text-decoration: none; }
+    .social-btn:hover { border-color: var(--orange); color: var(--orange); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+    .hero-content > * { opacity: 0; animation: fadeUp 0.8s ease forwards; }
+    .hero-content > *:nth-child(1) { animation-delay: 0.1s; }
+    .hero-content > *:nth-child(2) { animation-delay: 0.25s; }
+    .hero-content > *:nth-child(3) { animation-delay: 0.4s; }
+    .hero-content > *:nth-child(4) { animation-delay: 0.52s; }
+    .hero-content > *:nth-child(5) { animation-delay: 0.64s; }
+    .hero-stats { opacity: 0; animation: fadeUp 0.8s ease 0.76s forwards; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1100px) {
+      .listing-layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+      .destinations-grid { grid-template-columns: repeat(3, 1fr); }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      nav { padding: 0 24px; }
+      .nav-links { display: none; }
+      section { padding: 72px 24px; }
+      .hero { padding: 100px 24px 120px; }
+      .hero-stats { gap: 32px; flex-wrap: wrap; }
+      .featured-grid { grid-template-columns: 1fr; }
+      .featured-card:first-child { height: 360px; }
+      .destinations-grid { grid-template-columns: repeat(2, 1fr); }
+      .magazine-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .newsletter-form { flex-direction: column; }
+      .newsletter-form input { border-right: 1px solid var(--border); border-bottom: none; }
+      .distinctions-grid { flex-wrap: wrap; }
+      .distinction-item { flex-basis: calc(50% - 1px); }
+      .hero-scale { gap: 2px; }
+      .scale-item { min-width: 70px; padding: 14px 10px; }
+      .scale-divider { display: none; }
+    }
+    /* ── LANGUAGE SWITCHER ── */
+    .lang-switcher {
+      display: flex; align-items: center;
+      border: 1px solid var(--border);
+      border-radius: 2px; overflow: hidden;
+    }
+    .lang-btn {
+      background: none; border: none;
+      padding: 7px 11px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px; font-weight: 500;
+      letter-spacing: 0.05em;
+      color: var(--gray); cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      border-right: 1px solid var(--border);
+    }
+    .lang-btn:last-child { border-right: none; }
+    .lang-btn:hover { background: #fef3ec; color: var(--orange); }
+    .lang-btn.active { background: var(--orange); color: #fff; }
+  </style>
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav>
+  <div class="nav-logo">
+    <div class="logo-main">🍊 FirstOrange</div>
+    <span class="logo-sub" data-i18n="logo_sub">The Restaurant & Hotel Guide</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#restaurants" class="active" data-i18n="nav_restaurants">Restaurants</a></li>
+    <li><a href="#hotels" data-i18n="nav_hotels">Hotels</a></li>
+    <li><a href="#destinations" data-i18n="nav_destinations">Destinations</a></li>
+    <li><a href="#magazine" data-i18n="nav_magazine">Magazine</a></li>
+    <li><a href="#" data-i18n="nav_bestof">Best-Of Guides</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-switcher">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('zh')">简</button>
+      <button class="lang-btn" onclick="setLang('zh-tw')">繁</button>
+    </div>
+    <button class="btn-primary" data-i18n="signin">Sign In</button>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-ornament"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow" data-i18n="hero_eyebrow">🍊 FirstOrange Guide</div>
+    <h1>Honest Ratings for<br /><em data-i18n="hero_h1_em">Every</em> <span data-i18n="hero_h1">Table</span></h1>
+    <p class="hero-tagline" data-i18n="hero_tagline">From three oranges to three onions — we tell it like it is</p>
+
+    <!-- Rating Scale -->
+    <div class="hero-scale">
+      <div class="scale-item">
+        <div class="scale-icons">🍊🍊🍊</div>
+        <div class="scale-label good">Exceptional</div>
+      </div>
+      <div class="scale-item">
+        <div class="scale-icons">🍊🍊</div>
+        <div class="scale-label good">Excellent</div>
+      </div>
+      <div class="scale-item">
+        <div class="scale-icons">🍊</div>
+        <div class="scale-label good">Good</div>
+      </div>
+      <div class="scale-divider">·</div>
+      <div class="scale-item onion-item">
+        <div class="scale-icons">🧅</div>
+        <div class="scale-label bad">Below Avg</div>
+      </div>
+      <div class="scale-item onion-item">
+        <div class="scale-icons">🧅🧅</div>
+        <div class="scale-label bad">Poor</div>
+      </div>
+      <div class="scale-item onion-item">
+        <div class="scale-icons">🧅🧅🧅</div>
+        <div class="scale-label bad">Avoid</div>
+      </div>
+    </div>
+
+    <div class="hero-actions">
+      <a href="#restaurants" class="btn-primary" style="padding:14px 36px;font-size:11px;text-decoration:none;">Explore Restaurants</a>
+      <a href="#hotels" class="btn-outline">Discover Hotels</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-number">18,792</span><span class="stat-label">Restaurants Listed</span></div>
+    <div class="stat"><span class="stat-number">1,240</span><span class="stat-label">🍊🍊🍊 Triple Orange</span></div>
+    <div class="stat"><span class="stat-number">62</span><span class="stat-label">Countries Covered</span></div>
+    <div class="stat"><span class="stat-number">4,200+</span><span class="stat-label">Hotels Reviewed</span></div>
+  </div>
+</section>
+
+<!-- ── DISTINCTIONS STRIP ── -->
+<div class="distinctions-strip">
+  <div class="distinctions-grid">
+    <div class="distinction-item">
+      <div class="distinction-icons">🍊🍊🍊</div>
+      <div class="distinction-name">Three Oranges</div>
+      <div class="distinction-desc">Exceptional — worth a special journey</div>
+      <div class="distinction-count">1,240</div>
+    </div>
+    <div class="distinction-item">
+      <div class="distinction-icons">🍊🍊</div>
+      <div class="distinction-name">Two Oranges</div>
+      <div class="distinction-desc">Excellent — well worth a detour</div>
+      <div class="distinction-count">3,580</div>
+    </div>
+    <div class="distinction-item">
+      <div class="distinction-icons">🍊</div>
+      <div class="distinction-name">One Orange</div>
+      <div class="distinction-desc">Good — a quality experience</div>
+      <div class="distinction-count">7,920</div>
+    </div>
+    <div class="distinction-item onion-item">
+      <div class="distinction-icons">🧅</div>
+      <div class="distinction-name">One Onion</div>
+      <div class="distinction-desc">Below average — room for improvement</div>
+      <div class="distinction-count bad">3,200</div>
+    </div>
+    <div class="distinction-item onion-item">
+      <div class="distinction-icons">🧅🧅</div>
+      <div class="distinction-name">Two Onions</div>
+      <div class="distinction-desc">Poor — disappointing experience</div>
+      <div class="distinction-count bad">1,840</div>
+    </div>
+    <div class="distinction-item onion-item">
+      <div class="distinction-icons">🧅🧅🧅</div>
+      <div class="distinction-name">Three Onions</div>
+      <div class="distinction-desc">Avoid — not recommended</div>
+      <div class="distinction-count bad">812</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── FILTER BAR ── -->
+<div class="filter-bar" id="restaurants">
+  <span class="filter-label">Filter by</span>
+  <div class="filter-tabs">
+    <button class="filter-tab active">All</button>
+    <button class="filter-tab">🍊🍊🍊 Three Oranges</button>
+    <button class="filter-tab">🍊🍊 Two Oranges</button>
+    <button class="filter-tab">🍊 One Orange</button>
+    <div class="filter-divider"></div>
+    <button class="filter-tab">🧅 One Onion</button>
+    <button class="filter-tab">🧅🧅 Two Onions</button>
+    <button class="filter-tab">🧅🧅🧅 Three Onions</button>
+    <div class="filter-divider"></div>
+    <button class="filter-tab">New This Year</button>
+    <button class="filter-tab">Date Night</button>
+    <button class="filter-tab">Near Me</button>
+  </div>
+</div>
+
+<!-- ── LISTINGS ── -->
+<section class="listing-section" style="padding-top:64px;">
+  <div class="listing-layout">
+
+    <aside class="sidebar">
+      <div class="legend-box">
+        <div class="legend-title">Rating System</div>
+        <div class="legend-row"><span class="legend-icons">🍊🍊🍊</span> Exceptional</div>
+        <div class="legend-row"><span class="legend-icons">🍊🍊</span> Excellent</div>
+        <div class="legend-row"><span class="legend-icons">🍊</span> Good</div>
+        <div class="legend-row bad"><span class="legend-icons">🧅</span> Below Average</div>
+        <div class="legend-row bad"><span class="legend-icons">🧅🧅</span> Poor</div>
+        <div class="legend-row bad"><span class="legend-icons">🧅🧅🧅</span> Avoid</div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-title">Cuisine</div>
+        <ul class="sidebar-options">
+          <li><label><span class="custom-check"></span> French</label><span class="count">610</span></li>
+          <li><label><span class="custom-check"></span> Japanese</label><span class="count">839</span></li>
+          <li><label><span class="custom-check"></span> Italian</label><span class="count">742</span></li>
+          <li><label><span class="custom-check"></span> Contemporary</label><span class="count">1,655</span></li>
+          <li><label><span class="custom-check"></span> American</label><span class="count">257</span></li>
+          <li><label><span class="custom-check"></span> Mediterranean</label><span class="count">719</span></li>
+          <li><label><span class="custom-check"></span> Chinese</label><span class="count">227</span></li>
+          <li><label><span class="custom-check"></span> Modern Cuisine</label><span class="count">4,202</span></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-title">Price Range</div>
+        <div class="price-row">
+          <button class="price-badge">$</button>
+          <button class="price-badge active">$$</button>
+          <button class="price-badge">$$$</button>
+          <button class="price-badge">$$$$</button>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-title">Good For</div>
+        <ul class="sidebar-options">
+          <li><label><span class="custom-check"></span> Date Night</label><span class="count">1,958</span></li>
+          <li><label><span class="custom-check"></span> Outdoor Dining</label><span class="count">1,784</span></li>
+          <li><label><span class="custom-check"></span> Chef's Table</label><span class="count">436</span></li>
+          <li><label><span class="custom-check"></span> Solo Dining</label><span class="count">1,568</span></li>
+          <li><label><span class="custom-check"></span> Family Friendly</label><span class="count">1,454</span></li>
+          <li><label><span class="custom-check"></span> Iconic</label><span class="count">495</span></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-title">Special Diets</div>
+        <ul class="sidebar-options">
+          <li><label><span class="custom-check"></span> Vegan Options</label><span class="count">5,737</span></li>
+          <li><label><span class="custom-check"></span> Vegetarian</label><span class="count">11,327</span></li>
+          <li><label><span class="custom-check"></span> Gluten-Free</label><span class="count">637</span></li>
+          <li><label><span class="custom-check"></span> Halal</label><span class="count">1,411</span></li>
+          <li><label><span class="custom-check"></span> Kosher</label><span class="count">777</span></li>
+        </ul>
+      </div>
+    </aside>
+
+    <div>
+      <div class="section-header" style="margin-bottom:32px;">
+        <p style="font-size:11px;color:var(--gray);letter-spacing:0.05em;">1–48 of <strong style="color:var(--white)">18,792</strong> Restaurants</p>
+        <div style="display:flex;gap:12px;align-items:center;">
+          <span style="font-size:10px;letter-spacing:0.15em;color:var(--gray);text-transform:uppercase;">Sort:</span>
+          <select style="background:var(--card);border:1px solid var(--border);color:var(--white);font-family:Montserrat,sans-serif;font-size:10px;padding:8px 12px;letter-spacing:0.1em;outline:none;">
+            <option>Recommended</option>
+            <option>Most Oranges First 🍊</option>
+            <option>Nearest First</option>
+            <option>Lowest Price</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="cards-grid">
+
+        <div class="restaurant-card">
+          <div class="card-img-wrap">
+            <div class="img-placeholder" style="background:#fef3ec;">
+              <span style="font-size:72px;">🍊</span>
+            </div>
+          </div>
+          <div class="card-badge"><span class="badge-icons">🍊🍊🍊</span><span class="badge-label">Three Oranges</span></div>
+          <button class="card-fav"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+          <div class="card-body">
+            <div class="card-cuisine">Modern French</div>
+            <div class="card-name">Atelier Lumière</div>
+            <div class="card-location">New York, NY · Upper East Side</div>
+            <div class="card-meta"><span class="card-price">$$$$</span><div class="card-rating">🍊🍊🍊</div></div>
+          </div>
+        </div>
+
+        <div class="restaurant-card">
+          <div class="card-img-wrap">
+            <div class="img-placeholder" style="background:#fef3ec;">
+              <span style="font-size:72px;">🍊</span>
+            </div>
+          </div>
+          <div class="card-badge"><span class="badge-icons">🍊🍊</span><span class="badge-label">Two Oranges</span></div>
+          <button class="card-fav"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+          <div class="card-body">
+            <div class="card-cuisine">Japanese Contemporary</div>
+            <div class="card-name">Sakura Omakase</div>
+            <div class="card-location">San Francisco, CA · SoMa</div>
+            <div class="card-meta"><span class="card-price">$$$$</span><div class="card-rating">🍊🍊</div></div>
+          </div>
+        </div>
+
+        <div class="restaurant-card">
+          <div class="card-img-wrap">
+            <div class="img-placeholder" style="background:#fef3ec;">
+              <span style="font-size:72px;">🍊</span>
+            </div>
+          </div>
+          <div class="card-badge"><span class="badge-icons">🍊</span><span class="badge-label">One Orange</span></div>
+          <button class="card-fav"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+          <div class="card-body">
+            <div class="card-cuisine">Italian</div>
+            <div class="card-name">Trattoria Vecchia</div>
+            <div class="card-location">Chicago, IL · River North</div>
+            <div class="card-meta"><span class="card-price">$$</span><div class="card-rating">🍊</div></div>
+          </div>
+        </div>
+
+        <div class="restaurant-card onion-card">
+          <div class="card-img-wrap">
+            <div class="img-placeholder" style="background:#f5f0e8;">
+              <span style="font-size:72px;">🧅</span>
+            </div>
+          </div>
+          <div class="card-badge onion-badge"><span class="badge-icons">🧅</span><span class="badge-label">One Onion</span></div>
+          <button class="card-fav"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+          <div class="card-body">
+            <div class="card-cuisine bad">Californian</div>
+            <div class="card-name">The Harbour Grill</div>
+            <div class="card-location">Los Angeles, CA · Marina Del Rey</div>
+            <div class="card-meta"><span class="card-price">$$$</span><div class="card-rating">🧅</div></div>
+          </div>
+        </div>
+
+        <div class="restaurant-card">
+          <div class="card-img-wrap">
+            <div class="img-placeholder" style="background:#fef3ec;">
+              <span style="font-size:72px;">🍊</span>
+            </div>
+          </div>
+          <div class="card-badge"><span class="badge-icons">🍊🍊</span><span class="badge-label">Two Oranges</span></div>
+          <button class="card-fav"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+          <div class="card-body">
+            <div class="card-cuisine">Nordic Contemporary</div>
+            <div class="card-name">Bergheim & Co.</div>
+            <div class="card-location">Boston, MA · Beacon Hill</div>
+            <div class="card-meta"><span class="card-price">$$$$</span><div class="card-rating">🍊🍊</div></div>
+          </div>
+        </div>
+
+        <div class="restaurant-card onion-card">
+          <div class="card-img-wrap">
+            <div class="img-placeholder" style="background:#f5f0e8;">
+              <span style="font-size:72px;">🧅</span>
+            </div>
+          </div>
+          <div class="card-badge onion-badge"><span class="badge-icons">🧅🧅</span><span class="badge-label">Two Onions</span></div>
+          <button class="card-fav"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+          <div class="card-body">
+            <div class="card-cuisine bad">American</div>
+            <div class="card-name">Route 9 Diner</div>
+            <div class="card-location">New Orleans, LA · Metairie</div>
+            <div class="card-meta"><span class="card-price">$</span><div class="card-rating">🧅🧅</div></div>
+          </div>
+        </div>
+
+      </div>
+      <div style="text-align:center;padding:48px 0 0;">
+        <button class="btn-outline" style="padding:16px 48px;">Load More Restaurants</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FEATURED ── -->
+<section class="featured-section">
+  <div class="section-header">
+    <div class="section-title-group">
+      <p class="section-eyebrow">Editor's Picks</p>
+      <h2 class="section-title">This Season's <em>Most</em><br />Celebrated Tables</h2>
+    </div>
+    <a href="#" class="view-all">View All Features →</a>
+  </div>
+  <div class="featured-grid">
+    <div class="featured-card">
+      <div class="featured-card-bg" style="background:#fef3ec;display:flex;align-items:center;justify-content:center;">
+        <span style="font-size:120px;">🍊</span>
+      </div>
+      <div class="featured-card-content" style="background:linear-gradient(0deg,rgba(250,249,245,0.97) 0%,transparent 100%);">
+        <div class="featured-tag" style="color:var(--orange);"><span>🍊🍊🍊</span> Three Oranges · New York</div>
+        <div class="featured-name" style="color:#1a1815;">Atelier Lumière:<br />A Tasting Menu Through Time</div>
+        <div class="featured-info" style="color:#6b6860;">Chef Jean-Marc Dubois · Modern French · From $380 per person</div>
+      </div>
+    </div>
+    <div class="featured-card" style="height:240px;">
+      <div class="featured-card-bg" style="background:#fef3ec;display:flex;align-items:center;justify-content:center;">
+        <span style="font-size:72px;">🍊</span>
+      </div>
+      <div class="featured-card-content" style="background:linear-gradient(0deg,rgba(250,249,245,0.97) 0%,transparent 100%);">
+        <div class="featured-tag" style="color:var(--orange);"><span>🍊🍊</span> Two Oranges · San Francisco</div>
+        <div class="featured-name" style="color:#1a1815;">Sakura Omakase: The Pursuit of Precision</div>
+        <div class="featured-info" style="color:#6b6860;">Chef Hiroshi Tanaka · Japanese · From $280</div>
+      </div>
+    </div>
+    <div class="featured-card" style="height:240px;">
+      <div class="featured-card-bg" style="background:#fef3ec;display:flex;align-items:center;justify-content:center;">
+        <span style="font-size:72px;">🍊</span>
+      </div>
+      <div class="featured-card-content" style="background:linear-gradient(0deg,rgba(250,249,245,0.97) 0%,transparent 100%);">
+        <div class="featured-tag" style="color:var(--orange);"><span>🍊</span> One Orange · Los Angeles</div>
+        <div class="featured-name" style="color:#1a1815;">Coastal Provisions: California Reinvented</div>
+        <div class="featured-info" style="color:#6b6860;">Chef Maria Solano · Californian · From $145</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOTELS ── -->
+<section class="hotels-section" id="hotels">
+  <div class="section-header">
+    <div class="section-title-group">
+      <p class="section-eyebrow">FirstOrange Guide · Hotels</p>
+      <h2 class="section-title">Exceptional <em>Places</em><br />to Stay</h2>
+    </div>
+    <a href="#" class="view-all">All Hotels →</a>
+  </div>
+  <div class="hotels-grid">
+
+    <div class="hotel-card">
+      <div class="hotel-img-wrap">
+        <div class="img-placeholder" style="background:#fef3ec;">
+          <span style="font-size:64px;">🍊</span>
+        </div>
+        <div class="hotel-tier"><div class="hotel-tier-bar"></div><div class="hotel-tier-bar"></div><div class="hotel-tier-bar"></div><div class="hotel-tier-bar"></div><div class="hotel-tier-bar"></div></div>
+      </div>
+      <div class="hotel-body">
+        <div class="hotel-category">Palace · 🍊🍊🍊</div>
+        <div class="hotel-name">Hôtel Beaumont</div>
+        <div class="hotel-location">New York, NY · Midtown</div>
+        <div class="hotel-amenities"><span class="amenity-tag">Spa</span><span class="amenity-tag">Fine Dining</span><span class="amenity-tag">Concierge</span><span class="amenity-tag">Pool</span></div>
+        <div class="hotel-meta"><div class="hotel-price">$850 <span>/ night</span></div><button class="btn-reserve">Reserve</button></div>
+      </div>
+    </div>
+
+    <div class="hotel-card">
+      <div class="hotel-img-wrap">
+        <div class="img-placeholder" style="background:#fef3ec;">
+          <span style="font-size:64px;">🍊</span>
+        </div>
+        <div class="hotel-tier"><div class="hotel-tier-bar"></div><div class="hotel-tier-bar"></div><div class="hotel-tier-bar"></div><div class="hotel-tier-bar"></div><div class="hotel-tier-bar dim"></div></div>
+      </div>
+      <div class="hotel-body">
+        <div class="hotel-category">Boutique · 🍊🍊</div>
+        <div class="hotel-name">The Waverley House</div>
+        <div class="hotel-location">San Francisco, CA · Nob Hill</div>
+        <div class="hotel-amenities"><span class="amenity-tag">Restaurant</span><span class="amenity-tag">Bar</span><span class="amenity-tag">Garden</span></div>
+        <div class="hotel-meta"><div class="hotel-price">$495 <span>/ night</span></div><button class="btn-reserve">Reserve</button></div>
+      </div>
+    </div>
+
+    <div class="hotel-card">
+      <div class="hotel-img-wrap">
+        <div class="img-placeholder" style="background:#fef3ec;">
+          <span style="font-size:64px;">🍊</span>
+        </div>
+        <div class="hotel-tier"><div class="hotel-tier-bar"></div><div class="hotel-tier-bar"></div><div class="hotel-tier-bar"></div><div class="hotel-tier-bar"></div><div class="hotel-tier-bar"></div></div>
+      </div>
+      <div class="hotel-body">
+        <div class="hotel-category">Resort · 🍊🍊🍊</div>
+        <div class="hotel-name">Meridian Grand Estate</div>
+        <div class="hotel-location">Miami, FL · South Beach</div>
+        <div class="hotel-amenities"><span class="amenity-tag">Beach Access</span><span class="amenity-tag">Spa</span><span class="amenity-tag">3 Restaurants</span></div>
+        <div class="hotel-meta"><div class="hotel-price">$1,200 <span>/ night</span></div><button class="btn-reserve">Reserve</button></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── DESTINATIONS ── -->
+<section class="destinations-section" id="destinations">
+  <div class="section-header">
+    <div class="section-title-group">
+      <p class="section-eyebrow">Explore by City</p>
+      <h2 class="section-title">Top <em>Destinations</em></h2>
+    </div>
+    <a href="#" class="view-all">All Cities →</a>
+  </div>
+  <div class="destinations-grid">
+    <div class="destination-card"><div class="dest-bg" style="background:linear-gradient(160deg,#f5e8d8,#eedcc8);"></div><div class="destination-label" style="color:#1a1815;"><div class="destination-city">New York</div><div class="destination-count">2,847 Establishments</div></div></div>
+    <div class="destination-card"><div class="dest-bg" style="background:linear-gradient(160deg,#fef0e4,#f5e0cc);"></div><div class="destination-label" style="color:#1a1815;"><div class="destination-city">Los Angeles</div><div class="destination-count">1,932 Establishments</div></div></div>
+    <div class="destination-card"><div class="dest-bg" style="background:linear-gradient(160deg,#f0ede4,#e8e2d4);"></div><div class="destination-label" style="color:#1a1815;"><div class="destination-city">Chicago</div><div class="destination-count">1,204 Establishments</div></div></div>
+    <div class="destination-card"><div class="dest-bg" style="background:linear-gradient(160deg,#fdeee4,#f5e2d4);"></div><div class="destination-label" style="color:#1a1815;"><div class="destination-city">San Francisco</div><div class="destination-count">988 Establishments</div></div></div>
+    <div class="destination-card"><div class="dest-bg" style="background:linear-gradient(160deg,#fce8d8,#f0d8c4);"></div><div class="destination-label" style="color:#1a1815;"><div class="destination-city">Miami</div><div class="destination-count">756 Establishments</div></div></div>
+  </div>
+</section>
+
+<!-- ── MAGAZINE ── -->
+<section class="magazine-section" id="magazine">
+  <div class="section-header">
+    <div class="section-title-group">
+      <p class="section-eyebrow">FirstOrange Guide · Magazine</p>
+      <h2 class="section-title">Stories & <em>Inspiration</em></h2>
+    </div>
+    <a href="#" class="view-all">All Articles →</a>
+  </div>
+  <div class="magazine-grid">
+    <div class="magazine-card">
+      <div class="magazine-img" style="background:#fef3ec;"><span style="font-size:72px;">🍊</span></div>
+      <div class="magazine-body">
+        <div class="magazine-tag">Chef Profiles</div>
+        <div class="magazine-title">The New Vanguard: Five Chefs Earning Their Third Orange</div>
+        <div class="magazine-excerpt">From fermentation labs to rooftop gardens, a new generation of culinary talent is transforming how we eat...</div>
+      </div>
+    </div>
+    <div class="magazine-card">
+      <div class="magazine-img" style="background:#fef3ec;"><span style="font-size:72px;">🍊</span></div>
+      <div class="magazine-body">
+        <div class="magazine-tag">Destinations</div>
+        <div class="magazine-title">New York's West Village: A Neighborhood in Its Golden Age</div>
+        <div class="magazine-excerpt">Cobblestoned streets and converted townhouses play host to some of the most exciting dining in the country...</div>
+      </div>
+    </div>
+    <div class="magazine-card">
+      <div class="magazine-img" style="background:#f5f0e8;"><span style="font-size:72px;">🧅</span></div>
+      <div class="magazine-body">
+        <div class="magazine-tag">The Guide · Updates</div>
+        <div class="magazine-title">2024 Ratings: 47 New Oranges, 12 Downgraded to Onions</div>
+        <div class="magazine-excerpt">This year's newly rated establishments span seventeen states and represent the most diverse cohort in our history...</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── NEWSLETTER ── -->
+<section class="newsletter-section">
+  <div class="newsletter-inner">
+    <p class="section-eyebrow">Stay Informed</p>
+    <h2>The Guide, <em style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--orange)">Delivered</em></h2>
+    <p>Weekly dispatches from our inspectors: new oranges, honest onions, seasonal openings, and editorial features from the finest — and most cautionary — tables around.</p>
+    <div class="newsletter-form">
+      <input type="email" placeholder="Your email address" />
+      <button type="button">Subscribe</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo">🍊 FirstOrange Guide</div>
+      <div class="footer-tagline">Honest Ratings for Every Table</div>
+      <p class="footer-desc">An independent authority on dining and hospitality. We rate with oranges for the great, and onions for the rest — no advertising, no influence, just honest reviews.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Restaurants</div>
+      <ul class="footer-links">
+        <li><a href="#">🍊🍊🍊 Three Oranges</a></li>
+        <li><a href="#">🍊🍊 Two Oranges</a></li>
+        <li><a href="#">🍊 One Orange</a></li>
+        <li><a href="#">🧅 One Onion</a></li>
+        <li><a href="#">🧅🧅 Two Onions</a></li>
+        <li><a href="#">🧅🧅🧅 Three Onions</a></li>
+        <li><a href="#">New Ratings</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Hotels</div>
+      <ul class="footer-links">
+        <li><a href="#">🍊🍊🍊 Top Hotels</a></li>
+        <li><a href="#">🍊🍊 Excellent Hotels</a></li>
+        <li><a href="#">🍊 Good Hotels</a></li>
+        <li><a href="#">Boutique</a></li>
+        <li><a href="#">Resorts</a></li>
+        <li><a href="#">Urban Hotels</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">The Guide</div>
+      <ul class="footer-links">
+        <li><a href="#">About FirstOrange</a></li>
+        <li><a href="#">Our Inspectors</a></li>
+        <li><a href="#">Rating Criteria</a></li>
+        <li><a href="#">Magazine</a></li>
+        <li><a href="#">Best-Of Guides</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Submit a Nomination</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 FirstOrange Guide. All rights reserved.</span>
+    <div class="footer-social">
+      <a href="#" class="social-btn">𝕏</a>
+      <a href="#" class="social-btn">in</a>
+      <a href="#" class="social-btn">ig</a>
+      <a href="#" class="social-btn">fb</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── LANGUAGE SWITCHER ──
+  const translations = {
+    en: {
+      logo_sub:        'The Restaurant & Hotel Guide',
+      nav_restaurants: 'Restaurants',
+      nav_hotels:      'Hotels',
+      nav_destinations:'Destinations',
+      nav_magazine:    'Magazine',
+      nav_bestof:      'Best-Of Guides',
+      signin:          'Sign In',
+      hero_eyebrow:    '🍊 FirstOrange Guide',
+      hero_h1:         'Table',
+      hero_h1_em:      'Every',
+      hero_tagline:    'From three oranges to three onions — we tell it like it is',
+
+      // Distinctions
+      dist1_name:'Three Oranges', dist1_desc:'Exceptional — worth a special journey',
+      dist2_name:'Two Oranges',   dist2_desc:'Excellent — well worth a detour',
+      dist3_name:'One Orange',    dist3_desc:'Good — a quality experience',
+      dist4_name:'One Onion',     dist4_desc:'Below average — room for improvement',
+      dist5_name:'Two Onions',    dist5_desc:'Poor — disappointing experience',
+      dist6_name:'Three Onions',  dist6_desc:'Avoid — not recommended',
+
+      // Stats
+      stat1:'Restaurants Listed', stat2:'🍊🍊🍊 Triple Orange',
+      stat3:'Countries Covered',  stat4:'Hotels Reviewed',
+
+      // Sections
+      sec_restaurants_eyebrow: 'Restaurants',
+      sec_restaurants_title1: 'This Season\'s', sec_restaurants_title2: 'Celebrated Tables',
+      sec_hotels_eyebrow: 'FirstOrange Guide · Hotels',
+      sec_hotels_title1: 'Exceptional', sec_hotels_title2: 'to Stay',
+      sec_hotels_em: 'Places',
+      sec_dest_eyebrow: 'Explore by City',
+      sec_dest_title: 'Top', sec_dest_em: 'Destinations',
+      sec_mag_eyebrow: 'FirstOrange Guide · Magazine',
+      sec_mag_title: 'Stories &', sec_mag_em: 'Inspiration',
+
+      // Newsletter
+      nl_eyebrow: 'Stay Informed',
+      nl_title: 'The Guide,', nl_title_em: 'Delivered',
+      nl_desc: 'Weekly dispatches from our inspectors: new oranges, honest onions, seasonal openings, and editorial features from the finest — and most cautionary — tables around.',
+      nl_btn: 'Subscribe',
+      nl_placeholder: 'Your email address',
+
+      // Footer
+      ft_tagline: 'Honest Ratings for Every Table',
+      ft_desc: 'An independent authority on dining and hospitality. We rate with oranges for the great, and onions for the rest — no advertising, no influence, just honest reviews.',
+      ft_col1: 'Restaurants', ft_col2: 'Hotels', ft_col3: 'The Guide',
+      ft_copy: '© 2025 FirstOrange Guide. All rights reserved.',
+
+      // Sidebar
+      sb_cuisine: 'Cuisine', sb_price: 'Price Range',
+      sb_goodfor: 'Good For', sb_diets: 'Special Diets',
+      sb_rating: 'Rating System',
+      sb_exceptional: 'Exceptional', sb_excellent: 'Excellent',
+      sb_good: 'Good', sb_below: 'Below Average',
+      sb_poor: 'Poor', sb_avoid: 'Avoid',
+    },
+    zh: {
+      logo_sub:        '餐厅与酒店指南',
+      nav_restaurants: '餐厅',
+      nav_hotels:      '酒店',
+      nav_destinations:'目的地',
+      nav_magazine:    '杂志',
+      nav_bestof:      '精选指南',
+      signin:          '登录',
+      hero_eyebrow:    '🍊 第一橙指南',
+      hero_h1:         '每一张餐桌',
+      hero_h1_em:      '诚实的',
+      hero_tagline:    '三个橙子到三个洋葱 — 我们说实话',
+
+      dist1_name:'三个橙子', dist1_desc:'卓越 — 值得专程前往',
+      dist2_name:'两个橙子', dist2_desc:'优秀 — 值得绕道而去',
+      dist3_name:'一个橙子', dist3_desc:'良好 — 品质不错的体验',
+      dist4_name:'一个洋葱', dist4_desc:'低于平均 — 有提升空间',
+      dist5_name:'两个洋葱', dist5_desc:'较差 — 令人失望的体验',
+      dist6_name:'三个洋葱', dist6_desc:'建议回避 — 不推荐',
+
+      stat1:'收录餐厅', stat2:'🍊🍊🍊 三橙评级',
+      stat3:'覆盖国家', stat4:'收录酒店',
+
+      sec_restaurants_eyebrow: '餐厅',
+      sec_restaurants_title1: '本季', sec_restaurants_title2: '精选餐桌',
+      sec_hotels_eyebrow: '第一橙指南 · 酒店',
+      sec_hotels_title1: '卓越的', sec_hotels_title2: '住宿之选',
+      sec_hotels_em: '住宿',
+      sec_dest_eyebrow: '按城市探索',
+      sec_dest_title: '热门', sec_dest_em: '目的地',
+      sec_mag_eyebrow: '第一橙指南 · 杂志',
+      sec_mag_title: '故事与', sec_mag_em: '灵感',
+
+      nl_eyebrow: '保持关注',
+      nl_title: '指南，', nl_title_em: '送达您手',
+      nl_desc: '每周收到我们探员的最新报告：新橙子、诚实洋葱、季节性开业以及最佳与最需注意餐桌的深度报道。',
+      nl_btn: '订阅',
+      nl_placeholder: '您的电子邮件',
+
+      ft_tagline: '每一张餐桌的诚实评价',
+      ft_desc: '独立的餐饮与酒店评价机构。我们用橙子评价优秀，用洋葱评价其余 — 无广告、无影响，只有诚实的点评。',
+      ft_col1: '餐厅', ft_col2: '酒店', ft_col3: '关于指南',
+      ft_copy: '© 2025 第一橙指南 版权所有',
+
+      sb_cuisine: '菜系', sb_price: '价格区间',
+      sb_goodfor: '适合场合', sb_diets: '特殊饮食',
+      sb_rating: '评分系统',
+      sb_exceptional: '卓越', sb_excellent: '优秀',
+      sb_good: '良好', sb_below: '低于平均',
+      sb_poor: '较差', sb_avoid: '建议回避',
+    },
+    'zh-tw': {
+      logo_sub:        '餐廳與酒店指南',
+      nav_restaurants: '餐廳',
+      nav_hotels:      '酒店',
+      nav_destinations:'目的地',
+      nav_magazine:    '雜誌',
+      nav_bestof:      '精選指南',
+      signin:          '登入',
+      hero_eyebrow:    '🍊 第一橙指南',
+      hero_h1:         '每一張餐桌',
+      hero_h1_em:      '誠實的',
+      hero_tagline:    '三個橙子到三個洋蔥 — 我們說實話',
+
+      dist1_name:'三個橙子', dist1_desc:'卓越 — 值得專程前往',
+      dist2_name:'兩個橙子', dist2_desc:'優秀 — 值得繞道而去',
+      dist3_name:'一個橙子', dist3_desc:'良好 — 品質不錯的體驗',
+      dist4_name:'一個洋蔥', dist4_desc:'低於平均 — 有提升空間',
+      dist5_name:'兩個洋蔥', dist5_desc:'較差 — 令人失望的體驗',
+      dist6_name:'三個洋蔥', dist6_desc:'建議回避 — 不推薦',
+
+      stat1:'收錄餐廳', stat2:'🍊🍊🍊 三橙評級',
+      stat3:'覆蓋國家', stat4:'收錄酒店',
+
+      sec_restaurants_eyebrow: '餐廳',
+      sec_restaurants_title1: '本季', sec_restaurants_title2: '精選餐桌',
+      sec_hotels_eyebrow: '第一橙指南 · 酒店',
+      sec_hotels_title1: '卓越的', sec_hotels_title2: '住宿之選',
+      sec_hotels_em: '住宿',
+      sec_dest_eyebrow: '按城市探索',
+      sec_dest_title: '熱門', sec_dest_em: '目的地',
+      sec_mag_eyebrow: '第一橙指南 · 雜誌',
+      sec_mag_title: '故事與', sec_mag_em: '靈感',
+
+      nl_eyebrow: '保持關注',
+      nl_title: '指南，', nl_title_em: '送達您手',
+      nl_desc: '每週收到我們探員的最新報告：新橙子、誠實洋蔥、季節性開業以及最佳與最需注意餐桌的深度報道。',
+      nl_btn: '訂閱',
+      nl_placeholder: '您的電子郵件',
+
+      ft_tagline: '每一張餐桌的誠實評價',
+      ft_desc: '獨立的餐飲與酒店評價機構。我們用橙子評價優秀，用洋蔥評價其餘 — 無廣告、無影響，只有誠實的點評。',
+      ft_col1: '餐廳', ft_col2: '酒店', ft_col3: '關於指南',
+      ft_copy: '© 2025 第一橙指南 版權所有',
+
+      sb_cuisine: '菜系', sb_price: '價格區間',
+      sb_goodfor: '適合場合', sb_diets: '特殊飲食',
+      sb_rating: '評分系統',
+      sb_exceptional: '卓越', sb_excellent: '優秀',
+      sb_good: '良好', sb_below: '低於平均',
+      sb_poor: '較差', sb_avoid: '建議回避',
+    }
+  };
+
+  function setLang(lang) {
+    const t = translations[lang];
+    if (!t) return;
+
+    // Update active button
+    document.querySelectorAll('.lang-btn').forEach(b => {
+      b.classList.toggle('active', b.getAttribute('onclick').includes("'" + lang + "'"));
+    });
+
+    // Update all data-i18n elements
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (t[key] !== undefined) el.textContent = t[key];
+    });
+
+    // Update distinction items
+    const distNames = document.querySelectorAll('.distinction-name');
+    const distDescs = document.querySelectorAll('.distinction-desc');
+    ['dist1','dist2','dist3','dist4','dist5','dist6'].forEach((k,i) => {
+      if (distNames[i]) distNames[i].textContent = t[k+'_name'] || distNames[i].textContent;
+      if (distDescs[i]) distDescs[i].textContent = t[k+'_desc'] || distDescs[i].textContent;
+    });
+
+    // Update stat labels
+    const statLabels = document.querySelectorAll('.stat-label');
+    ['stat1','stat2','stat3','stat4'].forEach((k,i) => {
+      if (statLabels[i] && t[k]) statLabels[i].textContent = t[k];
+    });
+
+    // Newsletter placeholder
+    const nlInput = document.querySelector('.newsletter-form input');
+    if (nlInput && t.nl_placeholder) nlInput.placeholder = t.nl_placeholder;
+    const nlBtn = document.querySelector('.newsletter-form button');
+    if (nlBtn && t.nl_btn) nlBtn.textContent = t.nl_btn;
+
+    // Newsletter body
+    const nlEyebrow = document.querySelector('.newsletter-section .section-eyebrow');
+    if (nlEyebrow && t.nl_eyebrow) nlEyebrow.textContent = t.nl_eyebrow;
+    const nlDesc = document.querySelector('.newsletter-section p');
+    if (nlDesc && t.nl_desc) nlDesc.textContent = t.nl_desc;
+
+    // Footer
+    const ftTagline = document.querySelector('.footer-tagline');
+    if (ftTagline && t.ft_tagline) ftTagline.textContent = t.ft_tagline;
+    const ftDesc = document.querySelector('.footer-desc');
+    if (ftDesc && t.ft_desc) ftDesc.textContent = t.ft_desc;
+    const ftCopy = document.querySelector('.footer-copy');
+    if (ftCopy && t.ft_copy) ftCopy.textContent = t.ft_copy;
+
+    // Sidebar titles
+    const sbTitles = document.querySelectorAll('.sidebar-title');
+    const sbKeys = ['sb_rating','sb_cuisine','sb_price','sb_goodfor','sb_diets'];
+    sbTitles.forEach((el, i) => { if (sbKeys[i] && t[sbKeys[i]]) el.textContent = t[sbKeys[i]]; });
+
+    // Sidebar legend rows
+    const legendRows = document.querySelectorAll('.legend-row');
+    const legendKeys = ['sb_exceptional','sb_excellent','sb_good','sb_below','sb_poor','sb_avoid'];
+    legendRows.forEach((row, i) => {
+      if (!legendKeys[i] || !t[legendKeys[i]]) return;
+      const icons = row.querySelector('.legend-icons');
+      if (icons) {
+        row.innerHTML = '';
+        row.appendChild(icons);
+        row.append(' ' + t[legendKeys[i]]);
+      }
+    });
+
+    // Section eyebrows & titles with data-i18n already handled above
+    // Hero h1 needs special handling since it has mixed content
+    const heroH1 = document.querySelector('.hero h1');
+    if (heroH1 && lang !== 'en') {
+      heroH1.innerHTML = t.hero_h1_em
+        ? `<em>${t.hero_h1_em}</em><br />${t.hero_h1}`
+        : heroH1.innerHTML;
+    } else if (heroH1 && lang === 'en') {
+      heroH1.innerHTML = `Honest Ratings for<br /><em data-i18n="hero_h1_em">Every</em> <span data-i18n="hero_h1">Table</span>`;
+    }
+
+    // Section eyebrows
+    const eyebrows = document.querySelectorAll('.section-eyebrow');
+    const eyebrowKeys = [
+      'sec_restaurants_eyebrow','sec_hotels_eyebrow',
+      'sec_dest_eyebrow','sec_mag_eyebrow'
+    ];
+    eyebrows.forEach((el, i) => {
+      if (eyebrowKeys[i] && t[eyebrowKeys[i]]) el.textContent = t[eyebrowKeys[i]];
+    });
+
+    document.documentElement.lang = lang === 'en' ? 'en' : lang === 'zh' ? 'zh-CN' : 'zh-TW';
+  }
+
+  document.querySelectorAll('.filter-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      tab.closest('.filter-tabs').querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+
+  document.querySelectorAll('.price-badge').forEach(badge => {
+    badge.addEventListener('click', () => {
+      badge.closest('.price-row').querySelectorAll('.price-badge').forEach(b => b.classList.remove('active'));
+      badge.classList.add('active');
+    });
+  });
+
+  const sections = document.querySelectorAll('section[id], div[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
+    navLinks.forEach(a => { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+  });
+
+  document.querySelectorAll('.card-fav').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const svg = btn.querySelector('svg');
+      const active = svg.style.fill === 'var(--orange)';
+      svg.style.fill = active ? 'none' : 'var(--orange)';
+      svg.style.stroke = active ? 'var(--gray-light)' : 'var(--orange)';
+    });
+  });
+</script>
+</body>
+</html>
